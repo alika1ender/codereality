@@ -822,6 +822,7 @@ function CRMark({ size = 28 }) {
 
 /* ---------- Navbar (light) ---------- */
 function Navbar({ light = true, current = "Home" }) {
+  const [menuOpen, setMenuOpen] = useState(false);
   const links = [
   { label: "Home", href: "Code Reality.html" },
   { label: "Who We Are", href: "Who We Are.html" },
@@ -832,7 +833,7 @@ function Navbar({ light = true, current = "Home" }) {
   const activeColor = light ? "text-ink-900" : "text-white";
   const glassClass = light ? "liquid-glass-dark" : "liquid-glass";
   return (
-    <nav className="fixed top-4 left-0 right-0 z-50 px-6 lg:px-12">
+    <nav className="fixed top-4 left-0 right-0 z-50 px-4 sm:px-6 lg:px-12">
       <div className="flex items-center justify-between">
         {/* Logo */}
         <a href="Code Reality.html" className={`${glassClass} rounded-full h-11 px-3 flex items-center gap-2`}>
@@ -842,7 +843,7 @@ function Navbar({ light = true, current = "Home" }) {
           </span>
         </a>
 
-        {/* Center pill */}
+        {/* Center pill — desktop */}
         <div className={`hidden md:flex ${glassClass} rounded-full px-1.5 py-1.5 items-center gap-0.5`}>
           {links.map((l, i) =>
           <a
@@ -855,9 +856,40 @@ function Navbar({ light = true, current = "Home" }) {
           )}
         </div>
 
-        {/* Right spacer for symmetry */}
-        <div className="h-11 w-[120px] invisible" aria-hidden="true" />
+        {/* Hamburger — mobile */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className={`md:hidden ${glassClass} rounded-full h-11 w-11 flex items-center justify-center`}
+          aria-label="Toggle menu"
+        >
+          <svg className={`h-5 w-5 ${light ? 'text-ink-900' : 'text-white'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            {menuOpen
+              ? <><line x1="6" y1="6" x2="18" y2="18" /><line x1="6" y1="18" x2="18" y2="6" /></>
+              : <><line x1="4" y1="7" x2="20" y2="7" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="17" x2="20" y2="17" /></>
+            }
+          </svg>
+        </button>
+
+        {/* Right spacer — desktop only */}
+        <div className="hidden md:block h-11 w-[120px] invisible" aria-hidden="true" />
       </div>
+
+      {/* Mobile dropdown */}
+      {menuOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          className={`md:hidden mt-3 ${glassClass} rounded-[18px] px-2 py-2 flex flex-col gap-0.5`}
+        >
+          {links.map((l, i) => (
+            <a key={i} href={l.href}
+              className={`px-4 py-3 text-[15px] font-medium rounded-[14px] transition-colors ${current === l.label ? (light ? 'bg-black/5 ' + activeColor : 'bg-white/10 ' + activeColor) : textColor}`}>
+              {l.label}
+            </a>
+          ))}
+        </motion.div>
+      )}
     </nav>);
 
 }
