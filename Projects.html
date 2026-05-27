@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Projects — CodeReality</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['-apple-system','BlinkMacSystemFont','"SF Pro Display"','"SF Pro Text"','"Helvetica Neue"','Helvetica','Arial','sans-serif'],
+          body:    ['-apple-system','BlinkMacSystemFont','"SF Pro Text"','"SF Pro Display"','"Helvetica Neue"','Helvetica','Arial','sans-serif'],
+        },
+        borderRadius: { DEFAULT: '9999px' },
+        colors: {
+          ink: {
+            900: '#0a0a0c',
+            700: '#1d1d1f',
+            500: '#3a3a3d',
+            300: '#86868b',
+            200: '#a6a6ab',
+          },
+          brand: {
+            purple: '#7C2BF7',
+            indigo: '#5B47F7',
+            blue:   '#2B6FF7',
+          },
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  :root {
+    --brand-purple: #7C2BF7;
+    --brand-indigo: #5B47F7;
+    --brand-blue:   #2B6FF7;
+    --ink:          #0a0a0c;
+    --silver:       #f2f3f5;
+    --display-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    /* Hero canvas colors — driven by Mood tweak */
+    --hero-bg:        #f5f6f8;
+    --hero-fade-stop: 245,246,248;
+    --hero-text:      #0a0a0c;
+    --hero-text-sub:  #3a3a3d;
+    --hero-overlay:   transparent;
+
+    /* Capabilities section — driven by Mood tweak */
+    --caps-base-1:    #0a0820;
+    --caps-base-2:    #07061a;
+    --caps-base-3:    #050511;
+  }
+  html, body { background: #000; color: #fff; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.01em;
+  }
+  ::selection { background: rgba(124,43,247,0.25); color: inherit; }
+
+  /* --- Apple-style display type --- */
+  .apple-display {
+    font-family: var(--display-font);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.02; /* tight, but room for descenders */
+    padding-bottom: 0.06em;
+  }
+  /* Editorial voice tightens differently */
+  .voice-editorial .apple-display {
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.0;
+  }
+  .voice-editorial .apple-display .grad-text { font-style: italic; }
+  .voice-mono .apple-display {
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    line-height: 1.05;
+    text-transform: lowercase;
+  }
+  .apple-eyebrow {
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+
+  /* Brand gradient text */
+  .grad-text {
+    background: linear-gradient(95deg, var(--brand-purple) 0%, var(--brand-indigo) 45%, var(--brand-blue) 100%);
+    -webkit-background-clip: text;
+            background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    /* Tight line height + small bottom padding keeps lines close while leaving
+       just enough room so the text-clip mask doesn’t crop g, y, p, q. */
+    line-height: 1.12;
+    padding: 0 0.04em 0.08em 0.04em;
+    overflow: visible;
+    -webkit-box-decoration-break: clone;
+            box-decoration-break: clone;
+  }
+
+  /* ---------- Liquid glass (white-tinted, works on light & dark) ---------- */
+  .liquid-glass {
+    background: rgba(255,255,255,0.01);
+    background-blend-mode: luminosity;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: none;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  .liquid-glass::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.4px;
+    background: linear-gradient(180deg,
+      rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.15) 20%,
+      rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%,
+      rgba(255,255,255,0.15) 80%, rgba(255,255,255,0.45) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+  }
+  .liquid-glass-strong {
+    background: rgba(255,255,255,0.01);
+    background-blend-mode: luminosity;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+    border: none;
+    box-shadow: 4px 4px 4px rgba(0,0,0,0.05), inset 0 1px 1px rgba(255,255,255,0.15);
+    position: relative; overflow: hidden;
+  }
+  .liquid-glass-strong::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.4px;
+    background: linear-gradient(180deg,
+      rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.2) 20%,
+      rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%,
+      rgba(255,255,255,0.2) 80%, rgba(255,255,255,0.5) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+  }
+
+  /* Dark glass variant for light hero — uses ink-toned border instead */
+  .liquid-glass-dark {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(18px) saturate(1.2);
+    -webkit-backdrop-filter: blur(18px) saturate(1.2);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.7), 0 1px 2px rgba(0,0,0,0.04);
+    position: relative; overflow: hidden;
+  }
+  .liquid-glass-dark::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.04) 40%, rgba(0,0,0,0.02) 60%, rgba(0,0,0,0.12));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+  }
+
+  /* Hero — full-bleed Quest 3 image background; text sits in lower half */
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background-image: url('assets/quest.jpg');
+    background-repeat: no-repeat;
+    background-position: center 28%;
+    background-size: cover;
+  }
+  /* Mood-driven color overlay across the entire headset image. Soft tint for
+     Twilight, full dark wash for Midnight, transparent for Daylight. */
+  .hero-tint {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: var(--hero-overlay);
+    transition: background 600ms ease;
+  }
+  .hero-fade-bottom {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 60%; z-index: 1;
+    background: linear-gradient(180deg,
+      rgba(var(--hero-fade-stop),0) 0%,
+      rgba(var(--hero-fade-stop),0.55) 45%,
+      rgba(var(--hero-fade-stop),0.92) 75%,
+      rgba(var(--hero-fade-stop),1) 100%);
+    pointer-events: none;
+    transition: background 600ms ease;
+  }
+  .hero-fade-top {
+    position: absolute; inset: 0 0 auto 0; height: 140px; z-index: 1;
+    background: linear-gradient(180deg, rgba(var(--hero-fade-stop),0.6) 0%, rgba(var(--hero-fade-stop),0) 100%);
+    pointer-events: none;
+    transition: background 600ms ease;
+  }
+  /* Soft dark halo only under the subheading so white text reads on silver */
+  .subhead-halo {
+    position: relative;
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 14px;
+  }
+  .subhead-halo::before {
+    content: ""; position: absolute; inset: -2px; border-radius: inherit; z-index: -1;
+    background: radial-gradient(60% 100% at 50% 50%, rgba(10,8,30,0.55) 0%, rgba(10,8,30,0) 75%);
+    filter: blur(8px);
+  }
+
+  /* Capabilities bg — brand-driven blooms over mood-driven base */
+  .caps-bg {
+    position: absolute; inset: 0; z-index: 0;
+    transition: background 600ms ease;
+    background:
+      radial-gradient(60% 50% at 18% 18%, color-mix(in srgb, var(--brand-purple) 55%, transparent) 0%, transparent 60%),
+      radial-gradient(55% 45% at 85% 85%, color-mix(in srgb, var(--brand-blue) 55%, transparent) 0%, transparent 60%),
+      radial-gradient(80% 70% at 50% 50%, color-mix(in srgb, var(--brand-indigo) 18%, transparent) 0%, transparent 70%),
+      linear-gradient(160deg, var(--caps-base-1) 0%, var(--caps-base-2) 50%, var(--caps-base-3) 100%);
+  }
+  .caps-grain {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0.5;
+    background:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.4) 50%, transparent 51%),
+      radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.25) 50%, transparent 51%),
+      radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.18) 50%, transparent 51%);
+    mix-blend-mode: screen;
+  }
+
+  /* Brand accent gradient ring used on icons / chips */
+  .brand-ring {
+    background: linear-gradient(135deg, rgba(124,43,247,0.18), rgba(43,111,247,0.18));
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18);
+  }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; }
+</style>
+</head>
+<body class="bg-black text-white">
+
+<div id="root"></div>
+
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/framer-motion@11.11.17/dist/framer-motion.js"></script>
+<script>window.Motion = window.Motion || window.FramerMotion || window.motion;</script>
+
+
+
+
+
+<script>
+  (function () {
+    const origError = console.error;
+    console.error = function (...args) {
+      const first = args && args[0];
+      if (typeof first === 'string' && (first.includes('unique "key"') || first.includes('Each child in a list'))) return;
+      return origError.apply(console, args);
+    };
+  })();
+</script>
+
+<script type="text/babel" data-presets="env,react">
+const { useEffect, useRef, useState, useMemo } = React;
+const { motion } = window.Motion;
+
+/* ---------- Icons ---------- */
+function ArrowUpRight({ className = "h-4 w-4" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7 17L17 7" /><path d="M7 7h10v10" />
+    </svg>);
+
+}
+function Play({ className = "h-4 w-4" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" stroke="none">
+      <polygon points="6 4 20 12 6 20 6 4" />
+    </svg>);
+
+}
+function HeadsetIcon({ className = "h-5 w-5" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 13a8 8 0 0 1 16 0v3a2 2 0 0 1-2 2h-2.5a1.5 1.5 0 0 1-1.2-.6L13 16h-2l-1.3 1.4A1.5 1.5 0 0 1 8.5 18H6a2 2 0 0 1-2-2v-3z" />
+      <circle cx="8.5" cy="13" r="1.1" /><circle cx="15.5" cy="13" r="1.1" />
+    </svg>);
+
+}
+function GlobeIcon({ className = "h-5 w-5" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9" /><path d="M3 12h18" />
+      <path d="M12 3c2.8 3 4.2 6 4.2 9s-1.4 6-4.2 9c-2.8-3-4.2-6-4.2-9s1.4-6 4.2-9z" />
+    </svg>);
+
+}
+function FrameIcon({ className = "h-5 w-5" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 8h16" /><path d="M4 16h16" /><path d="M8 4v16" /><path d="M16 4v16" />
+    </svg>);
+
+}
+function NodesIcon({ className = "h-5 w-5" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="5" cy="6" r="2" /><circle cx="19" cy="6" r="2" /><circle cx="12" cy="18" r="2" />
+      <path d="M7 7l4 9" /><path d="M17 7l-4 9" /><path d="M7 6h10" />
+    </svg>);
+
+}
+function CodeBracketsIcon({ className = "h-5 w-5" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 7l-5 5 5 5" /><path d="M15 7l5 5-5 5" />
+    </svg>);
+
+}
+
+/* ---------- BlurText ---------- */
+function BlurText({ text, className = "", as = "p", style = {}, wordClassName = "", wordStyle = {} }) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!ref.current) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {if (e.isIntersecting) {setInView(true);io.disconnect();}});
+    }, { threshold: 0.1 });
+    io.observe(ref.current);
+    return () => io.disconnect();
+  }, []);
+  const words = useMemo(() => text.split(" "), [text]);
+  const Tag = motion[as] || motion.p;
+  return (
+    <Tag
+      ref={ref}
+      className={className}
+      style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", rowGap: "0.05em", ...style }}>
+      
+      {words.map((w, i) =>
+      <motion.span
+        key={i}
+        className={wordClassName}
+        initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
+        animate={inView ? {
+          filter: ["blur(10px)", "blur(5px)", "blur(0px)"],
+          opacity: [0, 0.5, 1],
+          y: [50, -5, 0]
+        } : {}}
+        transition={{ duration: 0.75, times: [0, 0.5, 1], ease: "easeOut", delay: i * 0.08 }}
+        style={{ display: "inline-block", marginRight: "0.22em", ...wordStyle }}>
+        
+          {w}
+        </motion.span>
+      )}
+    </Tag>);
+
+}
+
+/* ---------- Logo mark ---------- */
+function CRMark({ size = 28 }) {
+  // Brand logo — VR headset with </> wordmark
+  return (
+    <img
+      src="assets/codereality-logo.png"
+      alt="CodeReality"
+      style={{ height: size, width: "auto", display: "block" }} />);
+
+
+}
+
+/* ---------- Navbar (light) ---------- */
+function Navbar({ light = true, current = "Home" }) {
+  const links = [
+  { label: "Home", href: "Code Reality.html" },
+  { label: "Who We Are", href: "Who We Are.html" },
+  { label: "Projects", href: "Projects.html" },
+  { label: "Contact", href: "Contact.html" }];
+
+  const textColor = light ? "text-ink-700" : "text-white/90";
+  const activeColor = light ? "text-ink-900" : "text-white";
+  const glassClass = light ? "liquid-glass-dark" : "liquid-glass";
+  return (
+    <nav className="fixed top-4 left-0 right-0 z-50 px-6 lg:px-12">
+      <div className="flex items-center justify-between">
+        {/* Logo */}
+        <a href="Code Reality.html" className={`${glassClass} rounded-full h-11 px-3 flex items-center gap-2`}>
+          <CRMark size={26} />
+          <span className={`text-[15px] font-semibold tracking-tight ${light ? 'text-ink-900' : 'text-white'}`}>
+            CodeReality
+          </span>
+        </a>
+
+        {/* Center pill */}
+        <div className={`hidden md:flex ${glassClass} rounded-full px-1.5 py-1.5 items-center gap-0.5`}>
+          {links.map((l, i) =>
+          <a
+            key={i}
+            href={l.href}
+            className={`px-4 py-1.5 text-[13px] font-medium rounded-full transition-opacity ${current === l.label ? activeColor : textColor} hover:opacity-80`}>
+            
+              {l.label}
+            </a>
+          )}
+        </div>
+
+        {/* Right spacer for symmetry */}
+        <div className="h-11 w-[120px] invisible" aria-hidden="true" />
+      </div>
+    </nav>);
+
+}
+
+/* ---------- Hero (light, with Quest 3 image background) ---------- */
+const blurIn = {
+  initial: { filter: "blur(10px)", opacity: 0, y: 20 },
+  animate: { filter: "blur(0px)", opacity: 1, y: 0 }
+};
+
+
+const PROJECTS = [
+  {
+    title: "CodeReality × TEDx METU NCC, Space Simulation",
+    client: "TEDxMETUNCC",
+    year: "2026",
+    discipline: "Space VR Simulation",
+    summary: "A live VR space simulation built for the 2026 TEDxMETUNCC event at the Culture & Congress Center. Attendees stepped into orbit through a CodeReality headset, a guided journey from the launch pad to low-Earth orbit, paired with the day's talks on exploration and curiosity.",
+    tone: ["#7C2BF7", "#2B6FF7"],
+    image: "assets/tedx-metuncc.jpg",
+  },
+  {
+    title: "ODTÜ KALTEV Game Jam 2026",
+    client: "ODTÜ KALTEV",
+    year: "2026",
+    discipline: "VR Showcase",
+    summary: "CodeReality sponsored 2026 ODTÜ KALTEV Game Jam to bring VR to the floor. We set up a live play station of our in-house VR games and let attendees pick up a headset, jump in, and try them firsthand alongside the jam.",
+    tone: ["#F25C2B", "#7C2BF7"],
+    image: "assets/odtu-kaltev-gamejam.jpg",
+  },
+];
+
+function ProjectThumb({ tone, idx, image, title }) {
+  if (image) {
+    return (
+      <div className="relative w-full aspect-[16/10] rounded-[18px] overflow-hidden liquid-glass-dark">
+        <img
+          src={image}
+          alt={title || ""}
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
+        />
+      </div>
+    );
+  }
+  const id = "p" + idx;
+  return (
+    <div className="relative w-full aspect-[16/10] rounded-[18px] overflow-hidden liquid-glass-dark">
+      <svg viewBox="0 0 320 200" className="absolute inset-0 w-full h-full">
+        <defs>
+          <linearGradient id={id} x1="0" y1="0" x2="320" y2="200" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor={tone[0]} />
+            <stop offset="100%" stopColor={tone[1]} />
+          </linearGradient>
+        </defs>
+        <rect width="320" height="200" fill={"url(#" + id + ")"} opacity="0.92" />
+        <g stroke="rgba(255,255,255,0.18)" strokeWidth="0.6">
+          {Array.from({length: 8}).map((_, i) => (
+            <line key={i} x1={i * 40} y1="0" x2={i * 40} y2="200" />
+          ))}
+          {Array.from({length: 5}).map((_, i) => (
+            <line key={"h"+i} x1="0" y1={i * 40} x2="320" y2={i * 40} />
+          ))}
+        </g>
+        <circle cx="245" cy="55" r="42" fill="rgba(255,255,255,0.18)" />
+        <circle cx="245" cy="55" r="24" fill="rgba(255,255,255,0.32)" />
+      </svg>
+    </div>
+  );
+}
+
+function ProjectRow({ p, idx }) {
+  return (
+    <motion.a
+      href="#"
+      initial={{ filter: "blur(10px)", opacity: 0, y: 24 }}
+      whileInView={{ filter: "blur(0px)", opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.7, ease: "easeOut", delay: (idx % 2) * 0.1 }}
+      className="group block"
+    >
+      <ProjectThumb tone={p.tone} idx={idx} image={p.image} title={p.title} />
+      <div className="mt-5 flex items-start justify-between gap-6">
+        <div>
+          <div className="apple-eyebrow text-ink-300 mb-1.5">
+            {p.discipline} · {p.year}
+          </div>
+          <div className="apple-display text-ink-900 text-[24px] md:text-[28px] tracking-tight">
+            {p.title}
+          </div>
+          <div className="text-[13.5px] text-ink-500 mt-1">{p.client}</div>
+          <p className="mt-3 text-[14.5px] text-ink-500 leading-snug max-w-[42ch]">
+            {p.summary}
+          </p>
+        </div>
+        <div className="shrink-0 mt-1 text-ink-700 group-hover:text-ink-900 transition-colors">
+          <ArrowUpRight className="h-5 w-5" />
+        </div>
+      </div>
+    </motion.a>
+  );
+}
+
+function App() {
+  return (
+    <main className="min-h-screen" style={{ background: "#f5f6f8", color: "var(--ink)" }}>
+      <Navbar light={true} current="Projects" />
+
+      <section className="max-w-[1280px] mx-auto px-6 md:px-10 pt-32 md:pt-40 pb-24">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="apple-eyebrow text-ink-500 mb-5 text-center"
+        >
+          Projects
+        </motion.div>
+
+        <BlurText
+          as="h1"
+          text="Selected work, shipped to production."
+          className="apple-display text-ink-900 text-[40px] sm:text-5xl md:text-6xl lg:text-[80px] max-w-[16ch] mx-auto text-center"
+        />
+
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut", delay: 0.9 }}
+          className="mt-8 text-[16px] md:text-[18px] text-ink-500 max-w-[60ch] mx-auto text-center leading-snug"
+        >
+          A short selection of immersive projects and showcases we've shipped, from live events to in-house VR games.
+        </motion.p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-x-10 md:gap-y-16 mt-20 md:mt-24">
+          {PROJECTS.map((p, i) => (
+            <ProjectRow key={i} p={p} idx={i} />
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+}
+
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
