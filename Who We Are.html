@@ -337,7 +337,7 @@ function CRMark({ size = 28 }) {
 function Navbar({ light = true, current = "Home" }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const links = [
-    { label: "Home", href: "Code Reality.html" },
+    { label: "Home", href: "index.html" },
     { label: "Who We Are", href: "Who We Are.html" },
     { label: "Projects", href: "Projects.html" },
     { label: "Contact", href: "Contact.html" },
@@ -349,7 +349,7 @@ function Navbar({ light = true, current = "Home" }) {
     <nav className="fixed top-4 left-0 right-0 z-50 px-4 sm:px-6 lg:px-12">
       <div className="flex items-center justify-between">
         {/* Logo */}
-        <a href="Code Reality.html" className={`${glassClass} rounded-full h-11 px-3 flex items-center gap-2`}>
+        <a href="index.html" className={`${glassClass} rounded-full h-11 px-3 flex items-center gap-2`}>
           <CRMark size={26} />
           <span className={`text-[15px] font-semibold tracking-tight ${light ? 'text-ink-900' : 'text-white'}`}>
             CodeReality
